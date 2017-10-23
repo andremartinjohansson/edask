@@ -58,19 +58,17 @@ $questions = $di->get("db")->executeFetchAll($sql, ["question"]);
 </div>
 
 <?php if ($di->get("session")->get("user") !== null) : ?>
-
-<div class="leave-comment">
-    <form action="<?=$di->get("url")->create('post_comment')?>" method="post">
-        <div class="compose-comment">
-            <p class="p-tags">Topic</p>
-            <input class="input-tags" type="text" name="topic" placeholder="Topic of your question" required>
-            <p class="p-tags">Your question</p>
-            <textarea class="comment-text" name="comment" required="required" placeholder="Formulate your question..."></textarea>
-            <p class="p-tags">Enter tags (seperated by a comma ,)</p>
-            <input class="input-tags" type="text" name="tags" placeholder="Tags" required>
-        </div>
-        <input class="comment-post" name="submit" type="submit" value="Ask!">
-    </form>
-</div>
-
+    <div class="leave-comment">
+        <form action="<?=$di->get("url")->create('post_comment')?>" method="post">
+            <div class="compose-comment">
+                <p class="p-tags">Topic</p>
+                <input class="input-tags" type="text" name="topic" placeholder="Topic of your question" required>
+                <p class="p-tags">Your question</p>
+                <textarea class="comment-text" name="comment" required="required" placeholder="Formulate your question..."></textarea>
+                <p class="p-tags">Enter tags (seperated by a comma ,)</p>
+                <input class="input-tags" type="text" name="tags" placeholder="Tags" required>
+            </div>
+            <input class="comment-post" name="submit" type="submit" value="Ask!">
+        </form>
+    </div>
 <?php endif; ?>

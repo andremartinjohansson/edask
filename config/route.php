@@ -36,11 +36,6 @@ return [
             "file" => __DIR__ . "/route/userController.php",
         ],
         [
-            // Add routes from admin
-            "mount" => "admin",
-            "file" => __DIR__ . "/route/adminController.php",
-        ],
-        [
             // Keep this last since its a catch all
             "mount" => null,
             "file" => __DIR__ . "/route/404.php",

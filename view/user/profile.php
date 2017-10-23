@@ -21,11 +21,6 @@ $email_hash = md5(strtolower(trim($di->get("session")->get("user")["email"])));
 
     <div class="profile-links">
 
-        <?php
-        if ($di->get("session")->get("user")["role"] == "admin") {?>
-            <a class='profile-item' href="<?=$di->get("url")->create('admin')?>">Manage users<br></a><?php
-        }?>
-
         <a class='profile-item' href="<?=$di->get("url")->create('user/email')?>">Change Email<br></a>
         <a class='profile-item' href="<?=$di->get("url")->create('user/logout')?>">Log out<br></a>
 
