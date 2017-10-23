@@ -1,7 +1,11 @@
-<h2>About</h2>
+<div class="thread-content">
 
-<p>This is a website for Elite: Dangerous players where questions can be asked and answered about the game.</p>
+    <h2>About</h2>
 
-<a href="https://github.com/andymartinj/edask">Github Repository</a>
+    <p>This is a website for Elite: Dangerous players where questions can be asked and answered about the game.</p>
 
-<p>It was created by André Johansson, who goes by the username AndyBoom.</p>
+    <a href="https://github.com/andymartinj/edask">Github Repository</a>
+
+    <p>It was created by André Johansson, who goes by the username AndyBoom.</p>
+
+</div>

@@ -71,4 +71,6 @@ $questions = $di->get("db")->executeFetchAll($sql, ["question"]);
             <input class="comment-post" name="submit" type="submit" value="Ask!">
         </form>
     </div>
+<?php else : ?>
+    <p>You have to <a href="<?=$di->get("url")->create("user/login")?>">login</a> before asking a question.</p>
 <?php endif; ?>

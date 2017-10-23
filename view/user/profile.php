@@ -1,7 +1,10 @@
 <?php
 
 if ($di->get("session")->get("user") == null) {
-    $di->get("response")->redirect("user/login");
+    $urlParts = explode("/", $_SERVER['HTTP_REFERER']);
+    $url = end($urlParts);
+    $di->get("response")->redirect($url);
+    die();
 }
 
 $email_hash = md5(strtolower(trim($di->get("session")->get("user")["email"])));

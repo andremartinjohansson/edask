@@ -3,6 +3,20 @@
 if (isset($_GET["id"])) {
     $article = $_GET["id"];
 } else {
+    $urlParts = explode("/", $_SERVER['HTTP_REFERER']);
+    $url = end($urlParts);
+    $di->get("response")->redirect($url);
+    die();
+}
+
+if (!$di->session->get("user")) {
+    $loginUrl = $di->get("url")->create('user/login');
+    echo <<<EOD
+    <div class="thread-content">
+    <h2>Reply</h2>
+    <p>You have to be <a href="{$loginUrl}">logged</a> in before replying.</p>
+    </div>
+EOD;
     die();
 }
 

@@ -24,6 +24,9 @@ class CommentsController implements InjectionAwareInterface
     public function add()
     {
         $user = $this->session->get("user");
+        if (!isset($user)) {
+            $this->response->redirect("user/login");
+        }
         $this->di->get("comments")->addComment($_POST, $this->db, $user);
         $sql = "SELECT rep FROM Rep WHERE user = ?;";
         $result = $this->db->executeFetch($sql, [$user["name"]]);

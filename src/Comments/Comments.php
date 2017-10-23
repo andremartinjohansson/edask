@@ -2,8 +2,6 @@
 
 namespace Anax\Comments;
 
-use \Anax\Comments\Filter;
-
 class Comments
 {
 

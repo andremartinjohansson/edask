@@ -3,6 +3,9 @@
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
 } else {
+    $urlParts = explode("/", $_SERVER['HTTP_REFERER']);
+    $url = end($urlParts);
+    $di->get("response")->redirect($url);
     die();
 }
 

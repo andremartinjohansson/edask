@@ -1,0 +1,49 @@
+use anjd16;
+
+SET NAMES utf8;
+
+DROP TABLE IF EXISTS Users;
+CREATE TABLE Users (
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `acronym` VARCHAR(80) UNIQUE NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `role` VARCHAR(255) NOT NULL,
+    `created` DATETIME,
+    `updated` DATETIME,
+    `deleted` DATETIME,
+    `active` DATETIME
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+DROP TABLE IF EXISTS Rep;
+CREATE TABLE Rep (
+    `user` VARCHAR(80) UNIQUE NOT NULL,
+    `rep` INTEGER NOT NULL
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+DROP TABLE IF EXISTS Comments;
+CREATE TABLE Comments (
+    `id` INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    `article` VARCHAR(80),
+    `author` VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `topic` VARCHAR(255),
+    `comment` TEXT,
+    `type` VARCHAR(255),
+    `time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `votes` INTEGER,
+    `tags` VARCHAR(255),
+    `answers` INTEGER
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+DROP TABLE IF EXISTS Voted;
+CREATE TABLE Voted (
+    `id` INTEGER NOT NULL,
+    `user` VARCHAR(255) NOT NULL
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;
+
+DROP TABLE IF EXISTS Picked;
+CREATE TABLE Picked (
+    `questionid` INTEGER NOT NULL UNIQUE,
+    `answerid` INTEGER NOT NULL
+) ENGINE INNODB CHARACTER SET utf8 COLLATE utf8_swedish_ci;

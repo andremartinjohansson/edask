@@ -222,6 +222,22 @@ EOD;
             foreach ($repliesMain as $reply) {
                 $replySectionMain .= $this->makeReplies($reply, $di);
             }
+            $loginUrl = $di->get("url")->create('user/login');
+            if ($di->get("session")->get("user")) {
+                $compose =
+                <<<EOD
+                <form action="{$post}" method="post">
+                <input type="hidden" name="article" value="{$articleComment}">
+                <textarea class="write-comment" name="comment" required="required" placeholder="Write an answer..."></textarea>
+                <input class="answer-post" name="submit" type="submit" value="Post">
+                </form>
+EOD;
+            } else {
+                $compose =
+                <<<EOD
+                <p class="entry-content">You have to be <a href="{$loginUrl}">logged</a> in before answering questions.</p>
+EOD;
+            }
             $htmlSection .=
                 <<<EOD
                 <div class="comment">
@@ -256,11 +272,7 @@ EOD;
                 {$commentSection}
                 </div>
                 <div class="add-comment">
-                <form action="{$post}" method="post">
-                <input type="hidden" name="article" value="{$articleComment}">
-                <textarea class="write-comment" name="comment" required="required" placeholder="Write an answer..."></textarea>
-                <input class="answer-post" name="submit" type="submit" value="Post">
-                </form>
+                {$compose}
                 </div>
                 </div>
 EOD;
