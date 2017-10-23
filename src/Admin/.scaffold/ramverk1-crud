@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+#
+# Postprocess scaffold
+#
+
+#
+# Read input from user supporting a default value for reponse.
+# arg1: The message to display.
+# arg2: The default value.
+#
+input()
+{
+    read -r -p "$1 [$2]: "
+    echo "${REPLY:-$2}"
+}
+
+
+
+#
+# Compatible sed -i.
+# https://stackoverflow.com/a/4247319/341137
+# arg1: Expression.
+# arg2: Filename.
+#
+sedi()
+{
+    sed -i.bak "$1" "$2"
+    rm -f "$2.bak"
+}
+
+
+
+#
+# Read values from user input
+#
+NAMESPACE=$( input "Namespace" "${ANAX_NAMESPACE:-Anax\\\\XXX}" )
+CLASSNAME=$( input "Class name" "ClassName" )
+cLASSNAME=${CLASSNAME,}
+
+# Model
+file="MODEL.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+mv "$file" "$CLASSNAME.php"
+
+# Controller
+file="CONTROLLER.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+mv "$file" "${CLASSNAME}Controller.php"
+
+# CreateForm
+file="HTMLForm/CreateForm.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# UpdateForm
+file="HTMLForm/UpdateForm.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# DeleteForm
+file="HTMLForm/DeleteForm.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# Routes for the controller
+path="extra/config/route"
+file="CONTROLLER.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$path/$file"
+mv "$path/$file" "$path/${cLASSNAME}Controller.php"
+
+# To add the router file
+file="extra/config/route.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# To add controller as service
+file="extra/config/di.php"
+sedi "s/NAMESPACE/$NAMESPACE/g" "$file"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$file"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# Prepare database table MySQL
+path="extra/sql/ddl"
+file="mysql.sql"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$path/$file"
+mv "$path/$file" "$path/${cLASSNAME}_$file"
+
+# Prepare database table SQLite
+path="extra/sql/ddl"
+file="sqlite.sql"
+sedi "s/CLASSNAME/$CLASSNAME/g" "$path/$file"
+mv "$path/$file" "$path/${cLASSNAME}_$file"
+
+# view for create
+file="extra/view/CLASSNAME/crud/create.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# view for update
+file="extra/view/CLASSNAME/crud/update.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# view for delete
+file="extra/view/CLASSNAME/crud/delete.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# view for view-all
+file="extra/view/CLASSNAME/crud/view-all.php"
+sedi "s/cLASSNAME/$cLASSNAME/g" "$file"
+
+# Prepare view directory
+path="extra/view"
+file="CLASSNAME"
+install -d "$path/${cLASSNAME}/crud/"
+rsync -a "$path/$file/" "$path/${cLASSNAME}/"
+rm -rf "$path/$file"
