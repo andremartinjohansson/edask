@@ -72,5 +72,5 @@ $questions = $di->get("db")->executeFetchAll($sql, ["question"]);
         </form>
     </div>
 <?php else : ?>
-    <p>You have to <a href="<?=$di->get("url")->create("user/login")?>">login</a> before asking a question.</p>
+    <p class="thread-content">You have to <a href="<?=$di->get("url")->create("user/login")?>">login</a> before asking a question.</p>
 <?php endif; ?>

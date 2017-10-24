@@ -10,6 +10,9 @@ if (isset($_GET["id"])) {
 }
 
 $question = $di->get("commentsController")->get($id);
+if (!$question) {
+    $di->get("response")->redirect("ask");
+}
 
 ?>
 

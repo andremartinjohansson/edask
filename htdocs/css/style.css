@@ -429,6 +429,9 @@ hr {
 .rate-answer {
   float: right;
 }
+.rate-answer .upvote {
+    color: white;
+}
 .answer-actions {
   position: static;
   margin-left: 150px;

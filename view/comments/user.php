@@ -40,7 +40,7 @@ $interacted = array();
 
 foreach ($questions as $question) {
     if (!in_array($question->article, $interacted)) {
-        if (substr($question->article, -1) == "a") {
+        if ((substr($question->article, -1) == "a") || (substr($question->article, -1) == "b")) {
             $answered = substr($question->article, 0, 1);
             if (in_array($answered, $interacted)) {
                 continue;
@@ -48,7 +48,7 @@ foreach ($questions as $question) {
                 array_push($interacted, $answered);
                 continue;
             }
-        } elseif (substr($question->article, -1) != "a" && substr($question->article, -1) != "b") {
+        } elseif ((substr($question->article, -1) != "a") && (substr($question->article, -1) != "b")) {
             array_push($interacted, $question->article);
         }
     }

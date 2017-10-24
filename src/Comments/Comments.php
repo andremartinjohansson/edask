@@ -96,7 +96,7 @@ class Comments
             $questionId = substr($article, 0, 1);
             $comment = new Comment();
             $comment->setDb($db);
-            $old = $comment->find("id", $questionId);
+            $old = $comment->find("article", $questionId);
             $comment->article = $old->article;
             $comment->author = $old->author;
             $comment->email = $old->email;
@@ -121,7 +121,7 @@ class Comments
             'tags' => $tags,
             'answers' => $answers);
 
-        if (isset($vars["article"])) {
+        if ($input["type"] == "answer") {
             array_push($this->answers, $input);
         } else {
             array_push($this->data, $input);
@@ -146,6 +146,25 @@ class Comments
         $comment = new Comment();
         $comment->setDb($db);
         $comment = $comment->find("id", $id);
+        if ($comment->type == "question") {
+            $articleId = $id . "a";
+            $sql = "SELECT * FROM Comments WHERE article = ?;";
+            $answers = $db->executeFetchAll($sql, [$articleId]);
+            foreach ($answers as $answer) {
+                $replyId = $answer->id . "b";
+                $sql = "DELETE FROM Comments WHERE article = ?;";
+                $db->execute($sql, [$replyId]);
+                $sql = "DELETE FROM Comments WHERE id = ?;";
+                $db->execute($sql, [$answer->id]);
+            }
+            $replyId = $id . "b";
+            $sql = "DELETE FROM Comments WHERE article = ?;";
+            $db->execute($sql, [$replyId]);
+        } elseif ($comment->type == "answer") {
+            $replyId = $id . "b";
+            $sql = "DELETE FROM Comments WHERE article = ?;";
+            $db->execute($sql, [$replyId]);
+        }
         $comment->delete();
     }
 

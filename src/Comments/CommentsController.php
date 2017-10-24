@@ -49,6 +49,11 @@ class CommentsController implements InjectionAwareInterface
         $this->di->get("comments")->deleteComment($_GET['id'], $this->db);
         $urlParts = explode("/", $_SERVER['HTTP_REFERER']);
         $url = end($urlParts);
+        $sql = "SELECT * FROM Picked WHERE answerId = ?;";
+        if ($this->db->executeFetch($sql, [$_GET['id']])) {
+            $sql = "DELETE FROM Picked WHERE answerId = ?;";
+            $this->db->execute($sql, [$_GET['id']]);
+        }
         if (!headers_sent()) {
             $this->response->redirect($url);
         }
@@ -107,6 +112,13 @@ class CommentsController implements InjectionAwareInterface
         $url = end($urlParts);
         $sql = "INSERT INTO Picked (questionid, answerid) VALUES (?, ?);";
         $this->db->execute($sql, [$questionId, $answerId]);
+        $sql = "SELECT author FROM Comments WHERE id = ?;";
+        $comment = $this->db->executeFetch($sql, [$answerId]);
+        $sql = "SELECT rep FROM Rep WHERE user = ?;";
+        $result = $this->db->executeFetch($sql, [$comment->author]);
+        $rep = ($result->rep + 2);
+        $sql = "UPDATE Rep SET rep = ? WHERE user = ?;";
+        $this->db->execute($sql, [$rep, $comment->author]);
         if (!headers_sent()) {
             $this->response->redirect($url);
         }
