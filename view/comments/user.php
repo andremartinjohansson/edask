@@ -31,17 +31,26 @@ $votes = $di->get("db")->executeFetch($sql, [$name]);
 
 <?php
 
-$orderBy = isset($_GET["orderby"]) ? $_GET["orderby"] : "time";
-
-$sql = "SELECT * FROM Comments WHERE author = ? ORDER BY $orderBy DESC;";
+$sql = "SELECT * FROM Comments WHERE author = ?;";
 $questions = $di->get("db")->executeFetchAll($sql, [$name]);
 
 $interacted = array();
 
 foreach ($questions as $question) {
     if (!in_array($question->article, $interacted)) {
-        if ((substr($question->article, -1) == "a") || (substr($question->article, -1) == "b")) {
-            $answered = substr($question->article, 0, 1);
+        if (substr($question->article, -1) == "a") {
+            $answered = explode("a", $question->article)[0];
+            if (in_array($answered, $interacted)) {
+                continue;
+            } else {
+                array_push($interacted, $answered);
+                continue;
+            }
+        } elseif (substr($question->article, -1) == "b") {
+            $answerId = explode("b", $question->article)[0];
+            $sql = "SELECT * FROM Comments WHERE id = ?;";
+            $answer = $di->get("db")->executeFetch($sql, [$answerId]);
+            $answered = explode("a", $answer->article)[0];
             if (in_array($answered, $interacted)) {
                 continue;
             } else {
@@ -61,17 +70,11 @@ foreach ($interacted as $article) {
     array_push($questions, $question[0]);
 }
 
+$questions = array_reverse($questions);
+
 ?>
 
 <div class="comment-section">
-
-    <div class="sort-bar">
-        <span><strong>Sort by: </strong></span>
-        <a href="<?=$di->get("request")->getRoute() . "?name={$name}&orderby=time"?>" class="sort-link">Latest</a>
-        <span> | </span>
-        <a href="<?=$di->get("request")->getRoute() . "?name={$name}&orderby=votes"?>" class="sort-link">Most Votes</a>
-    </div>
-
     <?php foreach ($questions as $question) : ?>
         <div class="comment-list-item">
             <div class="comment-details">

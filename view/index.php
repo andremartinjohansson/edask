@@ -6,7 +6,9 @@
 
 <?php
 
-$sql = "SELECT * FROM Comments WHERE type = ? ORDER BY 'time' DESC LIMIT 10;";
+$orderBy = "time";
+
+$sql = "SELECT * FROM Comments WHERE type = ? ORDER BY $orderBy DESC LIMIT 10;";
 $questions = $di->get("db")->executeFetchAll($sql, ["question"]);
 
 ?>
