@@ -93,7 +93,7 @@ class Comments
         }
 
         if ($type == "answer") {
-            $questionId = substr($article, 0, 1);
+            $questionId = explode("a", $article)[0];
             $comment = new Comment();
             $comment->setDb($db);
             $old = $comment->find("article", $questionId);

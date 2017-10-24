@@ -63,7 +63,7 @@ class CommentsController implements InjectionAwareInterface
     {
         $tags = isset($_POST["tags"]) ? $_POST["tags"] : null;
         $this->di->get("comments")->editComment($_POST['id'], $_POST['comment'], $tags, $this->db);
-        $urlParts = explode("/", $_SERVER['HTTP_REFERER']);
+        $urlParts = explode("/", $_POST["previous"]);
         $url = end($urlParts);
         if (!headers_sent()) {
             $this->response->redirect($url);

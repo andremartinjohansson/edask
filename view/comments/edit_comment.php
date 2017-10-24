@@ -34,7 +34,7 @@ $userUrl = $di->get("url")->create('member') . "?name=" . $comment->author;
 
 <h2 class="center">Edit</h2>
 
-    <div class="preview">
+    <!-- <div class="preview">
         <img class="avatar"
         src="https://www.gravatar.com/avatar/<?=$emailHash?>?s=100&amp;d=http%3A%2F%2Fi.imgur.com%2FCrOKsOd.png"
         alt="gravatar">
@@ -50,11 +50,12 @@ $userUrl = $di->get("url")->create('member') . "?name=" . $comment->author;
             <?=$tagSection?>
         </div>
         <?php endif; ?>
-    </div>
+    </div> -->
 
     <form action="<?=$di->get("url")->create('edit_comment')?>" method="post">
 
     <input type="hidden" name="id" value="<?=$_GET['id']?>">
+    <input type="hidden" name="previous" value="<?=$_SERVER['HTTP_REFERER']?>">
     <div class="leave-comment">
         <div class="compose-comment">
             <textarea class="comment-text" name="comment" required="required"><?=$text?></textarea>

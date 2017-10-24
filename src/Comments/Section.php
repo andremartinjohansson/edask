@@ -100,12 +100,15 @@ EOD;
         $filter = $di->get("textfilter");
         $pickUrl = "";
         $pick = $di->get("url")->create('mark') . "?questionid=" . $question->id . "&answerid=" . $comment->id;
+        $sql = "SELECT * FROM Picked WHERE questionid = ?;";
+        $picked = $di->get("db")->executeFetch($sql, [$question->id]);
         if ($user["name"] == $question->author) {
-            $sql = "SELECT * FROM Picked WHERE questionid = ?;";
-            $picked = $di->get("db")->executeFetch($sql, [$question->id]);
             if (!$picked) {
                 $pickUrl = "<a href='{$pick}' class='pick-link'>Mark as Answer</a>";
-            } elseif ($picked->answerid == $comment->id) {
+            }
+        }
+        if ($picked) {
+            if ($picked->answerid == $comment->id) {
                 $pickUrl = "<img src='image/mark.png' alt='Marked' class='marked'>";
             }
         }

@@ -20,7 +20,7 @@ EOD;
     die();
 }
 
-$id = substr($article, 0, 1);
+$id = explode("b", $article)[0];
 
 $question = $di->get("commentsController")->get($id);
 

@@ -147,6 +147,7 @@ hr {
   margin-bottom: -20px;
   font-size: 12px;
   color: #666666;
+  margin-top: 50px;
 }
 .footer-wrap p {
   max-width: 70%;
@@ -391,7 +392,7 @@ hr {
   font-size: 14px;
   max-width: 60%;
   display: inline-block;
-  margin-left: 150px;
+  margin-left: 200px;
 }
 .entry-content-answer p {
   overflow-wrap: break-word;
@@ -433,9 +434,8 @@ hr {
     color: white;
 }
 .answer-actions {
-  position: static;
-  margin-left: 150px;
-  font-size: 14px;
+    font-size: 14px;
+    text-align: right;
 }
 .answer-actions p {
   display: inline;
@@ -482,7 +482,7 @@ hr {
   font-size: 12px;
   position: absolute;
   top: 20px;
-  left: 70px;
+  left: 50px;
 }
 .reply {
   position: relative;
@@ -494,7 +494,7 @@ hr {
   font-size: 12px;
   max-width: 60%;
   display: inline-block;
-  margin-left: 150px;
+  margin-left: 200px;
   margin-top: -2px;
 }
 .reply-actions {
